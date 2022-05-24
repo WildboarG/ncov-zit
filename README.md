@@ -4,7 +4,7 @@ An automatic punch-in project based on Weishao's third-party application punch-i
 
 ---
 
-![PyPI - fuckzk](https://img.shields.io/pypi/wheel/fuckzk?label=fuckzk) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/fuckzk)  [![pypi_downloads_per_month](https://img.shields.io/pypi/dm/fuckzk)](https://pypi.org/project/fuckzk)  ![](https://img.shields.io/badge/License-MIT-reightgreen.svg)  ![](https://img.shields.io/badge/QQ%20Group-570418215-red)
+![PyPI - fuckzk](https://img.shields.io/pypi/wheel/fuckzk?label=fuckzk) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/fuckzk)  [![pypi_downloads_per_month](https://img.shields.io/pypi/dm/fuckzk)](https://pypi.org/project/fuckzk)  ![](https://img.shields.io/badge/License-MIT-reightgreen.svg) 
 
 
 
