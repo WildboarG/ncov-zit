@@ -223,6 +223,3 @@ class GetMe:
         except:
             return None
 
-if __name__ == "__main__":
-    getme = GetMe("zit","202122100120","046430")
-    getme.get_lastdata()

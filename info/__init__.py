@@ -7,10 +7,10 @@ LastEditTime: 2022-05-28 11:46:50
 Descripttion: 
 '''
 from info import *
-index = "https://api.zit.edu.cn"
-host = "https://lightapp.zit.edu.cn"
-refer = 'lightapp.zit.edu.cn/'
-redirect_uri = "https://lightapp.zit.edu.cn/check/questionnaire"
+index = ""  ## 获取cook的host
+host = ""  ## 所在学校调用微哨的host
+refer = '' ## host去掉协议
+redirect_uri = host+"/check/questionnaire"
 ## 一些登录请求的url
 endpoint ={
     "login": index + "/login",
@@ -22,4 +22,4 @@ api = {
     "userInfo": host + "/userInfo",
     "sign_url" : host + '/api/questionnaire/questionnaire/addMyAnswer'
 }
-authorityid=["10025","10081","10214","10263"]
+authorityid=[]   ## 学校归属

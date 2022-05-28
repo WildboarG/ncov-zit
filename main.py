@@ -88,7 +88,7 @@ class User:
         table.add_column("Status",justify="center")
         for i in res:
             print(i)
-            table.add_row(" Apr 14 2022",i[0],i[1])
+            table.add_row(" Apr 28 2022",i[0],i[1])
         
         print(table)
     ## 创建一个个人测试的函数
