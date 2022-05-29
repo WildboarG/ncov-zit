@@ -11,6 +11,8 @@ An automatic punch-in project based on Weishao's third-party application punch-i
 ## 说明
 
 基于微哨的第三方app的自动打卡“健康打卡平台”的一个`CLI工具`实现 \
+适用于大部分基于微哨开发的第三方合作平台。\
+稍作修改即可食用用 \
 基于`python3`版本适用于`linux` `windows` `MacOs`
 
 ---
