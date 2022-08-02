@@ -19,7 +19,7 @@ import queue
 ## use mysql-test-myclass database
 def get_config():
     config = ConfigParser()
-    file_path = os.path.join(os.path.abspath('/root/zit-Cov/config'),'config.ini')
+    file_path = os.path.join(os.path.abspath('/root/work/github/ncov-zit/config'),'config.ini')
     print(file_path)
     if not os.path.exists(file_path):
         raise FileNotFoundError("No found config file")
@@ -156,8 +156,8 @@ def main(argv):
     def all_report(filename):
         start = time.time()
         path = os.getcwd()
-        if path.find("/zit-Cov") == -1:
-            path+="/zit-Cov"
+        if path.find("/ncov-zit") == -1:
+            path+="/ncov-zit"
         info =json.load(open(path + "/config/"+"users.json",encoding="utf-8")) 
         print("[S] Load user configuration....")
         table = PrettyTable(["Name","Userid","Status"])  
