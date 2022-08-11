@@ -1,0 +1,6 @@
+getopt
+fuckzk
+prettytable
+configparser
+requests
+pymysql==0.9.1
