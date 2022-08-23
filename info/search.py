@@ -3,7 +3,7 @@ Author: WildboarG
 version: 1.0
 Date: 2022-08-23 17:17:33
 LastEditors: WildboarG
-LastEditTime: 2022-08-23 21:47:15
+LastEditTime: 2022-08-23 21:52:51
 Descripttion: 
 '''
 
@@ -87,9 +87,9 @@ class Search:
             "domain":school,
             #"stucode":self.user,
         }
-        return self.s.post(url=get_search_url,headers=header,json=postdata)
+        return requests.post(url=get_search_url,headers=header,json=postdata)
     ## get the punching environment
-    def get_feedback(self,cookie:str,mode="0", dafaultdate=time.strftime("%Y-%m-%d"))->str:
+    def get_feedback(self,cookie:str,mode="1", dafaultdate=time.strftime("%Y-%m-%d"))->str:
         self.set_verify()
         self.date = dafaultdate
         self.cookie = cookie
