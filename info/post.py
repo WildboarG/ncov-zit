@@ -3,10 +3,12 @@ Author: WildboarG
 version: 1.0
 Date: 2022-05-28 10:26:28
 LastEditors: WildboarG
-LastEditTime: 2022-05-28 12:01:37
+LastEditTime: 2022-08-23 21:17:06
 Descripttion: 
 '''
+
 import requests
+import json
 from info import *
 ##  打卡请求post
 def sign(data,cook):

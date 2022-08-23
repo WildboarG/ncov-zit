@@ -3,7 +3,7 @@ Author: WildboarG
 version: 1.0
 Date: 2022-05-27 15:28:40
 LastEditors: WildboarG
-LastEditTime: 2022-08-02 20:32:16
+LastEditTime: 2022-08-23 21:16:43
 Descripttion: 
 '''
 from info import *
@@ -76,7 +76,7 @@ class GetContent:
     def _get_init_cook(self)->str:
         return self.s.get(endpoint["login"]).headers.get("Set-Cookie")
     
-    def _login(self) -> str:
+    def rel_cookie(self) -> str:
         cook = self._get_init_cook()
         self.headers["Cookie"] = cook
         try:
@@ -237,8 +237,8 @@ class GetContent:
             return None
     # 
     def reporter(self):
-        cookie = self._login()
-        data = self._get_lastdata(cookie)
-        return cookie,data
+        cookie = self.rel_cookie()
+        return self._get_lastdata(cookie)
+        
         
 
