@@ -3,16 +3,14 @@ Author: WildboarG
 version: 1.0
 Date: 2022-08-23 17:17:33
 LastEditors: WildboarG
-LastEditTime: 2022-08-23 21:52:51
+LastEditTime: 2022-08-24 14:32:19
 Descripttion: 
 '''
 
-import requests
-import json
-import time
-school = "zit"
-get_verify_url = "https://appservice.{}.edu.cn/whistlenew/index.php".format(school)
-get_search_url = "https://lightapp.zit.edu.cn/api/reportstatistics/reportstatistics/getStatistical"
+from info import *
+from rich.table import Table
+from rich import print
+
 class Search:
     def __init__(self, user : str,password  : str) -> None:
         self.user = user
@@ -23,7 +21,7 @@ class Search:
             "a":"userLogin",
             "password":self.password,
             "student_number":self.user,
-            "school":"zit",
+            "school":schoolcode,
             "device_type":"android"
         }
     
@@ -43,7 +41,9 @@ class Search:
     def _get_path(self)->list:
         my_info = self._parse_data()["my_info"]
         path = my_info["path"]
-        return path.split(",")
+        boost = path.split(",")
+        return boost
+
 
     ## school
     def _get_school(self)->str:
@@ -63,75 +63,107 @@ class Search:
     
     ## get verify school college organization myclass
     def set_verify(self):
-        self.verify = self._get_verify()
-        self.school = self._get_school()
-        self.college = self._get_college()
-        self.organization = self._get_organization()
-        self.myclass = self._get_class()
+        try:
+            self.verify = self._get_verify()
+            self.school = self._get_school()
+            self.college = self._get_college()
+            self.organization = self._get_organization()
+            self.myclass = self._get_class()
+        # print(self.school,self.college,self.organization,self.myclass)
+            return 
+        except:
+            return "No verify"
         
-    def _require_post(self,id):
+    def _require_post(self,org_id):
         header = {
             'Content-Type':'application/json',
             'Cookie':self.cookie,
         }
         postdata = {
             "type":"org",
-            #"identity":"student",
+            "identity":"student",
             "para":{
-                "organization_id":id,
-                "organization_path_str":"0"
+            "organization_id":org_id,
+            "organization_path_str":"0",
             },
             "date":self.date,
-            "activityid":"2614",
+            "activityid":activityid,
             "flag":0,
-            "domain":school,
-            #"stucode":self.user,
+            "domain":schoolcode,
+            "stucode":self.user,
         }
         return requests.post(url=get_search_url,headers=header,json=postdata)
+
+    def _mode_choose(self,id)->str:
+        if id == "1":
+            id =str(self.organization)
+        if id == "2":
+            id =str(self.college)
+        if id == "3":
+            id = str(self.school)
+        if id == "0":
+            id = str(self.myclass)
+        else:
+            id = id  ## 自定义id
+        return id
     ## get the punching environment
-    def get_feedback(self,cookie:str,mode="1", dafaultdate=time.strftime("%Y-%m-%d"))->str:
+    def output_data(self,data)->str:
+        #print(data)
+        try:
+            allorgUserCount = data["orgUserCount"] #总人数
+            allreportCount = data["reportCount"] # 已经打卡人数
+
+            if self.orgtype=="tree":
+                tree = data["tree"]
+                chart = Table(show_header=True,header_style="bold magenta")
+
+                chart.add_column("Tree_id",justify="center")
+                chart.add_column("Org_name",justify="center")
+                chart.add_column("Count",justify="center")
+                chart.add_column("Signed",justify="center")
+                
+                for mumber in tree:
+                    tree_id = mumber["tree_id"]
+                    org_name = mumber["tree_name"]
+                    orgUserCount = mumber["orgUserCount"]
+                    reportCount = mumber["reportCount"]
+                    chart.add_row(str(tree_id),str(org_name),str(orgUserCount),str(reportCount))
+
+                return chart
+            else: #班级
+                user = data.get("users")
+                diagram = Table(show_header=True,header_style="Green")
+
+                diagram.add_column("Tree_id",justify="center")
+                diagram.add_column("Org_name",justify="center")
+                diagram.add_column("Punch",justify="center")
+
+                for mumber in user:
+                    user_name = mumber.get("user_name")
+                    user_sex = mumber.get("user_sex")
+                    isreport = mumber.get("is_report")
+                    diagram.add_row(str(user_name),str(user_sex),str(isreport))
+
+            
+                return diagram
+        except:
+            return "[E] :Faild to get chart"
+    
+    ## cookie 必选
+    ## orgid 可选参数 默认为class  可选 1 2 3 或者已经知道的班级或组织id
+    ## orgtype 可选参数 默认是user 如 组织类型不是班级将改为tree
+    ## dafaultdate 可选参数 默认是今天  格式 "2022-08-23"
+    
+    def get_feedback(self,cookie : str, orgid="0", orgtype="user",dafaultdate=time.strftime("%Y-%m-%d"))-> str:
         self.set_verify()
         self.date = dafaultdate
         self.cookie = cookie
-
-
-        if mode == '1':
-            classmode = "tree"
-            id =str(self.organization)
-        if mode == '2':
-            classmode = "tree"
-            id =str(self.college)
-        if mode == '3':
-            classmode = "tree"
-            id = str(self.school)
-        else:
-            classmode = "user" ## defalut
-            id = str(self.myclass)
-        print(id)
-        res = json.loads(self._require_post(id).text)
+        self.orgtype = orgtype
+        self.org_id = self._mode_choose(orgid)
+        res = json.loads(self._require_post(self.org_id).text)
         data = res.get("data")
-        orgUserCount = data.get("orgUserCount") #总人数
-        reportCount = data.get("reportCount") # 已经打卡人数
-        print(data)
-        if mode != "0":
-            tree = data.get("tree")
-            print(tree)
-            for mumber in tree:
-                name = mumber.get("tree_name")
-                orgUserCount = mumber.get("orgUserCount")
-                
-                reportCount = mumber.get("reportCount")
-                print(name,orgUserCount,reportCount)
-        else:
-            user = data.get("users")
-            for mumber in user:
-                user_name = mumber.get("user_name")
-                user_sex = mumber.get("user_sex")
-                isreport = mumber.get("is_report")
-                print(user_name,user_sex,isreport)
+        graphic = self.output_data(data)
+        print(graphic)
+       
 
 
-
-
-if __name__ == "__main__":
-    my = Search(user="202122100120",password="046430")

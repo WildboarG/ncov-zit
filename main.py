@@ -3,7 +3,7 @@ Author: WildboarG
 version: 1.0
 Date: 2022-05-27 15:17:19
 LastEditors: WildboarG
-LastEditTime: 2022-08-23 21:32:56
+LastEditTime: 2022-08-24 14:36:34
 Descripttion: 
 '''
 import csv
@@ -89,7 +89,7 @@ class User:
 
         self._print_table(table)
     ## 创建一个个人测试的函数
-    def test(self,username,password)->str:
+    def find(self,username,password)->str:
         bin = GetContent(
             schoolcode = self.schoolcode,
             username = username,
@@ -99,10 +99,11 @@ class User:
         #data = bin.reporter()
         #print(sign(data,cook))
         my = Search(user=username,password=password)
-        my.get_feedback(cookie=cook,mode="1")
+        my.get_feedback(cookie=cook,orgid="2",orgtype="tree",dafaultdate="2022-08-24")
 if __name__ == "__main__":
     #user = User()
     user = User("zit")
-    #user.csv_sign()
+    ## csv 批量打卡 
+    user.csv_sign()
     ## 结果查询，传入学号密码，以及查询类型
-    user.test("202122100120","046430")
+    user.find("xxx","xxx")
