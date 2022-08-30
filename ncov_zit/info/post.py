@@ -9,7 +9,7 @@ Descripttion:
 
 import requests
 import json
-from info import *
+from . import *
 ##  打卡请求post
 def sign(data,cook):
     headers = {

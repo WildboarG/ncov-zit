@@ -6,7 +6,7 @@ LastEditors: WildboarG
 LastEditTime: 2022-08-23 21:16:43
 Descripttion: 
 '''
-from info import *
+from . import *
 import requests
 import json
 class GetContent:

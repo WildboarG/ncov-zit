@@ -3,17 +3,18 @@ Author: WildboarG
 version: 1.0
 Date: 2022-05-27 15:23:10
 LastEditors: WildboarG
-LastEditTime: 2022-08-24 14:37:33
+LastEditTime: 2022-08-24 22:32:02
 Descripttion: 
 '''
-from info import *
+
+
 import requests
 import json
 import time
-## yours school
-authorityid=["xxxx","xxxx","xxxx","xxxx"]
-schoolcode = ""
-activityid = "xxxx"
+
+schoolcode="zit"
+authorityid=["10025","10081","10214","10263"]
+activityid ="2614"
 
 index = "https://api.{}.edu.cn".format(schoolcode)      # 获取cook的host
 host = "https://lightapp.{}.edu.cn".format(schoolcode)  # 所在学校调用微哨的host

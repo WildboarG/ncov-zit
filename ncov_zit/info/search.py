@@ -7,7 +7,7 @@ LastEditTime: 2022-08-24 14:32:19
 Descripttion: 
 '''
 
-from info import *
+from . import *
 from rich.table import Table
 from rich import print
 
@@ -94,58 +94,60 @@ class Search:
         }
         return requests.post(url=get_search_url,headers=header,json=postdata)
 
-    def _mode_choose(self,id)->str:
-        if id == "1":
-            id =str(self.organization)
-        if id == "2":
-            id =str(self.college)
-        if id == "3":
-            id = str(self.school)
-        if id == "0":
-            id = str(self.myclass)
+    def _mode_choose(self,idd)->str:
+        if idd == "1":
+            idd =str(self.organization)
+        if idd == "2":
+            idd =str(self.college)
+        if idd == "3":
+            idd = str(self.school)
         else:
-            id = id  ## 自定义id
-        return id
+            idd = str(idd)  ## 自定义id
+        return idd
     ## get the punching environment
-    def output_data(self,data)->str:
+    def output_user(self,data):
         #print(data)
         try:
             allorgUserCount = data["orgUserCount"] #总人数
             allreportCount = data["reportCount"] # 已经打卡人数
 
-            if self.orgtype=="tree":
-                tree = data["tree"]
-                chart = Table(show_header=True,header_style="bold magenta")
+            user = data.get("users")
+            diagram = Table(show_header=True,header_style="Green")
 
-                chart.add_column("Tree_id",justify="center")
-                chart.add_column("Org_name",justify="center")
-                chart.add_column("Count",justify="center")
-                chart.add_column("Signed",justify="center")
+            diagram.add_column("Tree_id",justify="center")
+            diagram.add_column("Org_name",justify="center")
+            diagram.add_column("Punch",justify="center")
+
+            for mumber in user:
+                user_name = mumber.get("user_name")
+                user_sex = mumber.get("user_sex")
+                isreport = mumber.get("is_report")
+                diagram.add_row(str(user_name),str(user_sex),str(isreport))
+
+            return diagram
+        except:
+            return 
+    def output_tree(self,data):
+        #print(data)
+        try:
+            allorgUserCount = data["orgUserCount"] #总人数
+            allreportCount = data["reportCount"] # 已经打卡人数
+
+            tree = data["tree"]
+            chart = Table(show_header=True,header_style="bold magenta")
+
+            chart.add_column("Tree_id",justify="center")
+            chart.add_column("Org_name",justify="center")
+            chart.add_column("Count",justify="center")
+            chart.add_column("Signed",justify="center")
                 
-                for mumber in tree:
-                    tree_id = mumber["tree_id"]
-                    org_name = mumber["tree_name"]
-                    orgUserCount = mumber["orgUserCount"]
-                    reportCount = mumber["reportCount"]
-                    chart.add_row(str(tree_id),str(org_name),str(orgUserCount),str(reportCount))
-
-                return chart
-            else: #班级
-                user = data.get("users")
-                diagram = Table(show_header=True,header_style="Green")
-
-                diagram.add_column("Tree_id",justify="center")
-                diagram.add_column("Org_name",justify="center")
-                diagram.add_column("Punch",justify="center")
-
-                for mumber in user:
-                    user_name = mumber.get("user_name")
-                    user_sex = mumber.get("user_sex")
-                    isreport = mumber.get("is_report")
-                    diagram.add_row(str(user_name),str(user_sex),str(isreport))
-
-            
-                return diagram
+            for mumber in tree:
+                tree_id = mumber["tree_id"]
+                org_name = mumber["tree_name"]
+                orgUserCount = mumber["orgUserCount"]
+                reportCount = mumber["reportCount"]
+                chart.add_row(str(tree_id),str(org_name),str(orgUserCount),str(reportCount))
+            return chart
         except:
             return "[E] :Faild to get chart"
     
@@ -154,16 +156,25 @@ class Search:
     ## orgtype 可选参数 默认是user 如 组织类型不是班级将改为tree
     ## dafaultdate 可选参数 默认是今天  格式 "2022-08-23"
     
-    def get_feedback(self,cookie : str, orgid="0", orgtype="user",dafaultdate=time.strftime("%Y-%m-%d"))-> str:
+    def get_feedback_user(self,cookie : str,dafaultdate=time.strftime("%Y-%m-%d")):
         self.set_verify()
         self.date = dafaultdate
         self.cookie = cookie
-        self.orgtype = orgtype
-        self.org_id = self._mode_choose(orgid)
+        self.org_id = self._mode_choose(str(self.myclass))
         res = json.loads(self._require_post(self.org_id).text)
         data = res.get("data")
-        graphic = self.output_data(data)
+        graphic = self.output_user(data)
         print(graphic)
        
 
+    def get_feedback_tree(self,cookie : str, orgid :str,dafaultdate=time.strftime("%Y-%m-%d")):
+        self.set_verify()
+        self.date = dafaultdate
+        self.cookie = cookie
+        self.org_id = self._mode_choose(orgid)
+        res = json.loads(self._require_post(self.org_id).text)
+        data = res.get("data")
+        graphic = self.output_tree(data)
+        print(graphic)
+       
 
