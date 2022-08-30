@@ -3,7 +3,7 @@ Author: WildboarG
 version: 1.0
 Date: 2022-05-27 15:17:19
 LastEditors: WildboarG
-LastEditTime: 2022-08-24 22:33:00
+LastEditTime: 2022-08-30 21:30:02
 Descripttion: 
 '''
 import argparse
@@ -17,9 +17,9 @@ import threading
 from rich import print
 from rich.table import Table
 
-from .info.login import GetContent
-from .info.post import sign as signn
-from .info.search import Search
+from info.login import GetContent
+from info.post import sign as signn
+from info.search import Search
 
 class User:
     def __init__(self,schoolcode:str,username:str,password:str) -> None:
@@ -138,7 +138,7 @@ class User:
         self._print_table(table)
 
     ## 查询
-    def find_me(self,date=time.strftime("%Y-%m-%d")):
+    def find_me(self,myclass="4",date=time.strftime("%Y-%m-%d")):
         bin = GetContent(
             schoolcode = self.schoolcode,
             username = self.username,
@@ -147,7 +147,7 @@ class User:
 
         cook = bin.rel_cookie()
         _search = Search(user=self.username,password=self.password)
-        _search.get_feedback_user(cookie=cook,dafaultdate=date)
+        _search.get_feedback_user(cookie=cook,classid=myclass,dafaultdate=date)
         return 
     def find_org(self,org="1",date=time.strftime("%Y-%m-%d")):
         bin = GetContent(
@@ -196,6 +196,11 @@ def main():
     # search report
     query = subparsers.add_parser("query",help="query history of the user report")
     query.add_argument(
+            '-m',
+            '--myclass',
+            help= "Query the specified class"
+            )
+    query.add_argument(
             '-s',
             '--start_time',
             help= "the start time of report history(Year-Month-Day)"
@@ -232,9 +237,12 @@ def main():
             exit()
 
     if args.command == "query":
+        if args.myclass:
+            user.find_me(myclass=args.myclass)
+            exit()
         if args.start_time:
             user.find_me(date=args.start_time)
-
+            exit()
         else:
             user.find_me()
         exit()

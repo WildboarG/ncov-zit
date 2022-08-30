@@ -3,7 +3,7 @@ Author: WildboarG
 version: 1.0
 Date: 2022-08-23 17:17:33
 LastEditors: WildboarG
-LastEditTime: 2022-08-24 14:32:19
+LastEditTime: 2022-08-30 21:35:57
 Descripttion: 
 '''
 
@@ -42,6 +42,7 @@ class Search:
         my_info = self._parse_data()["my_info"]
         path = my_info["path"]
         boost = path.split(",")
+        print(path)
         return boost
 
 
@@ -65,7 +66,7 @@ class Search:
     def set_verify(self):
         try:
             self.verify = self._get_verify()
-            self.school = self._get_school()
+            self.school = "10396"##self._get_school()"
             self.college = self._get_college()
             self.organization = self._get_organization()
             self.myclass = self._get_class()
@@ -101,6 +102,8 @@ class Search:
             idd =str(self.college)
         if idd == "3":
             idd = str(self.school)
+        if idd == "4":
+            idd ==str(self.myclass)
         else:
             idd = str(idd)  ## 自定义id
         return idd
@@ -128,7 +131,7 @@ class Search:
         except:
             return 
     def output_tree(self,data):
-        #print(data)
+        print(data)
         try:
             allorgUserCount = data["orgUserCount"] #总人数
             allreportCount = data["reportCount"] # 已经打卡人数
@@ -156,12 +159,12 @@ class Search:
     ## orgtype 可选参数 默认是user 如 组织类型不是班级将改为tree
     ## dafaultdate 可选参数 默认是今天  格式 "2022-08-23"
     
-    def get_feedback_user(self,cookie : str,dafaultdate=time.strftime("%Y-%m-%d")):
+    def get_feedback_user(self,cookie : str,classid="4",dafaultdate=time.strftime("%Y-%m-%d")):
         self.set_verify()
         self.date = dafaultdate
         self.cookie = cookie
-        self.org_id = self._mode_choose(str(self.myclass))
-        res = json.loads(self._require_post(self.org_id).text)
+        self.classid = self._mode_choose(classid)
+        res = json.loads(self._require_post(self.classid).text)
         data = res.get("data")
         graphic = self.output_user(data)
         print(graphic)
@@ -173,6 +176,7 @@ class Search:
         self.cookie = cookie
         self.org_id = self._mode_choose(orgid)
         res = json.loads(self._require_post(self.org_id).text)
+        print(res)
         data = res.get("data")
         graphic = self.output_tree(data)
         print(graphic)
