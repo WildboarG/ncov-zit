@@ -3,7 +3,7 @@ Author: WildboarG
 version: 1.0
 Date: 2022-05-27 15:17:19
 LastEditors: WildboarG
-LastEditTime: 2022-08-30 21:30:02
+LastEditTime: 2022-08-30 23:05:13
 Descripttion: 
 '''
 import argparse
@@ -138,7 +138,7 @@ class User:
         self._print_table(table)
 
     ## 查询
-    def find_me(self,myclass="4",date=time.strftime("%Y-%m-%d")):
+    def find_me(self, myclass="4",date=time.strftime("%Y-%m-%d")):
         bin = GetContent(
             schoolcode = self.schoolcode,
             username = self.username,
@@ -237,6 +237,8 @@ def main():
             exit()
 
     if args.command == "query":
+        if args.myclass and args.start_time:
+            user.find_me(myclass=args.myclass,date=args.start_time)
         if args.myclass:
             user.find_me(myclass=args.myclass)
             exit()
@@ -245,7 +247,7 @@ def main():
             exit()
         else:
             user.find_me()
-        exit()
+            exit()
     if args.command == "org":
         if args.organization_id and args.start_time:
             user.find_org(org=args.organization_id,date=args.start_time)

@@ -3,7 +3,7 @@ Author: WildboarG
 version: 1.0
 Date: 2022-08-23 17:17:33
 LastEditors: WildboarG
-LastEditTime: 2022-08-30 21:35:57
+LastEditTime: 2022-08-30 22:49:26
 Descripttion: 
 '''
 
@@ -42,7 +42,6 @@ class Search:
         my_info = self._parse_data()["my_info"]
         path = my_info["path"]
         boost = path.split(",")
-        print(path)
         return boost
 
 
@@ -66,11 +65,11 @@ class Search:
     def set_verify(self):
         try:
             self.verify = self._get_verify()
-            self.school = "10396"##self._get_school()"
+            self.school = self._get_school()
             self.college = self._get_college()
             self.organization = self._get_organization()
             self.myclass = self._get_class()
-        # print(self.school,self.college,self.organization,self.myclass)
+            #print(self.school,self.college,self.organization,self.myclass)
             return 
         except:
             return "No verify"
@@ -96,20 +95,19 @@ class Search:
         return requests.post(url=get_search_url,headers=header,json=postdata)
 
     def _mode_choose(self,idd)->str:
-        if idd == "1":
-            idd =str(self.organization)
-        if idd == "2":
-            idd =str(self.college)
         if idd == "3":
-            idd = str(self.school)
+            return str(self.organization)
+        if idd == "2":
+            return str(self.college)
+        if idd == "1":
+            return str(self.school)
         if idd == "4":
-            idd ==str(self.myclass)
+            return str(self.myclass)
         else:
-            idd = str(idd)  ## 自定义id
-        return idd
+            return str(idd)  ## 自定义id14122-
+        
     ## get the punching environment
     def output_user(self,data):
-        #print(data)
         try:
             allorgUserCount = data["orgUserCount"] #总人数
             allreportCount = data["reportCount"] # 已经打卡人数
@@ -117,21 +115,23 @@ class Search:
             user = data.get("users")
             diagram = Table(show_header=True,header_style="Green")
 
-            diagram.add_column("Tree_id",justify="center")
-            diagram.add_column("Org_name",justify="center")
+            diagram.add_column("Username",justify="center")
+            diagram.add_column("Userid",justify="center")
+            diagram.add_column("Gender",justify="center")
             diagram.add_column("Punch",justify="center")
 
             for mumber in user:
                 user_name = mumber.get("user_name")
+                user_id =mumber.get("user_id")
                 user_sex = mumber.get("user_sex")
                 isreport = mumber.get("is_report")
-                diagram.add_row(str(user_name),str(user_sex),str(isreport))
+                diagram.add_row(str(user_name),str(user_id),str(user_sex),str(isreport))
 
             return diagram
         except:
             return 
     def output_tree(self,data):
-        print(data)
+        #print(data)
         try:
             allorgUserCount = data["orgUserCount"] #总人数
             allreportCount = data["reportCount"] # 已经打卡人数
@@ -159,7 +159,7 @@ class Search:
     ## orgtype 可选参数 默认是user 如 组织类型不是班级将改为tree
     ## dafaultdate 可选参数 默认是今天  格式 "2022-08-23"
     
-    def get_feedback_user(self,cookie : str,classid="4",dafaultdate=time.strftime("%Y-%m-%d")):
+    def get_feedback_user(self,cookie : str,classid:str,dafaultdate=time.strftime("%Y-%m-%d")):
         self.set_verify()
         self.date = dafaultdate
         self.cookie = cookie
@@ -176,7 +176,6 @@ class Search:
         self.cookie = cookie
         self.org_id = self._mode_choose(orgid)
         res = json.loads(self._require_post(self.org_id).text)
-        print(res)
         data = res.get("data")
         graphic = self.output_tree(data)
         print(graphic)

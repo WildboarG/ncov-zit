@@ -3,7 +3,7 @@ Author: WildboarG
 version: 1.0
 Date: 2022-05-27 15:23:10
 LastEditors: WildboarG
-LastEditTime: 2022-08-24 22:32:02
+LastEditTime: 2022-08-30 23:05:25
 Descripttion: 
 '''
 
@@ -12,9 +12,9 @@ import requests
 import json
 import time
 
-schoolcode="zit"
-authorityid=["10025","10081","10214","10263"]
-activityid ="2614"
+schoolcode=
+authorityid=
+activityid =
 
 index = "https://api.{}.edu.cn".format(schoolcode)      # 获取cook的host
 host = "https://lightapp.{}.edu.cn".format(schoolcode)  # 所在学校调用微哨的host

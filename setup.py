@@ -3,7 +3,7 @@ Author: WildboarG
 version: 1.0
 Date: 2022-08-24 20:36:57
 LastEditors: WildboarG
-LastEditTime: 2022-08-24 22:31:28
+LastEditTime: 2022-08-30 23:04:28
 Descripttion: 
 '''
 #!/usr/bin/env python
@@ -18,7 +18,7 @@ from os.path import join, dirname, realpath
 setup(
     
     name='ncov_zit',
-    version='0.0.2',
+    version='0.0.3',
     author='WildboarG',
     author_email='mm62633482@gmail.com',
     url='https://github.com/WildboarG/ncov-zit',
