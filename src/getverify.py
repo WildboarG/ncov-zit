@@ -1,5 +1,16 @@
+'''
+Author: WildboarG
+version: 1.0
+Date: 2022-08-30 21:38:38
+LastEditors: WildboarG
+LastEditTime: 2022-08-30 21:44:29
+Descripttion: 
+'''
 import requests
 import json
+from sqlalchemy import all_
+
+from torch import are_deterministic_algorithms_enabled
 
 
 def login(user,password):
@@ -24,6 +35,7 @@ def login(user,password):
     #print(path)
     pathcalss = path.split(",")
     all_college = pathcalss[1]
+    print(all_college)
     my_college = pathcalss[2]
     my_organization = pathcalss[3]
     my_class = pathcalss[4]
