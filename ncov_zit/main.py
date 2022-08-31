@@ -17,9 +17,9 @@ import threading
 from rich import print
 from rich.table import Table
 
-from info.login import GetContent
-from info.post import sign as signn
-from info.search import Search
+from .info.login import GetContent
+from .info.post import sign as signn
+from .info.search import Search
 
 class User:
     def __init__(self,schoolcode:str,username:str,password:str) -> None:
@@ -41,7 +41,7 @@ class User:
             password = password,
         )
         cook = sign_content.rel_cookie()
-        data = self._get_data(sign_content)
+        data = sign_content.reporter(cook)
         ## return status
         result = signn(data,cook)
         info.append(result)
@@ -84,11 +84,12 @@ class User:
     def _cvs_crate_Threads(self,rows:list):
         threads=[]
         for row in rows:
+            #print(row[0],row[1])
             try:
                 threads.append(
                         threading.Thread(
                             target=self.__signed,
-                            args=(row[0],row[1]
+                            args=(str(row[0]),str(row[1])
                             )
                         )
                     )
@@ -168,7 +169,8 @@ class User:
             password = self.password,
         )
         cook = my.rel_cookie()
-        data = my.reporter()
+        data = my.reporter(cook)
+        #print(data)
         print(signn(data,cook))
         return         
 def main():

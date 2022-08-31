@@ -12,9 +12,9 @@ import requests
 import json
 import time
 
-schoolcode="zit"
-authorityid=f'["10025","10081","10214","10263"]'
-activityid ="2614"
+schoolcode=
+authorityid=
+activityid =
 
 index = "https://api.{}.edu.cn".format(schoolcode)      # 获取cook的host
 host = "https://lightapp.{}.edu.cn".format(schoolcode)  # 所在学校调用微哨的host

@@ -18,7 +18,7 @@ from os.path import join, dirname, realpath
 setup(
     
     name='ncov_zit',
-    version='0.0.3',
+    version='0.0.4',
     author='WildboarG',
     author_email='mm62633482@gmail.com',
     url='https://github.com/WildboarG/ncov-zit',

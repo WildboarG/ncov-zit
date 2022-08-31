@@ -7,7 +7,7 @@ LastEditTime: 2022-08-30 22:49:26
 Descripttion: 
 '''
 
-from . import *
+from info import *
 from rich.table import Table
 from rich import print
 

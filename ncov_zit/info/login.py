@@ -20,7 +20,7 @@ class GetContent:
         self.s = requests.session()
 
         self.headers = {
-                "Content-Type":"application/x-www-form-urlencoded"
+                "Content-Type":"application/x-www-form-urlencoded",
             }
 
         self.data = {
@@ -73,37 +73,37 @@ class GetContent:
                 allow_redirects=False
             )
 
-    def _get_init_cook(self)->str:
+    def _get_init_cook(self):
         return self.s.get(endpoint["login"]).headers.get("Set-Cookie")
     
-    def rel_cookie(self) -> str:
+    def rel_cookie(self):
         cook = self._get_init_cook()
         self.headers["Cookie"] = cook
         try:
             self._get_addr()            
             realcook = self._get_realcook()
             cookie =self._get_cookie(realcook)
-
+            #print(cookie)
             return cookie
         
         except:
             return None
 
-    def _get_yesterday_info(self,header :str,params2 :str) -> str:
+    def _get_yesterday_info(self,header,params2 :str) -> str:
         return self.s.get(
                 url = api["getQuestionDetail"],
                 headers = header,
                 params = params2,
             ).json().get("data")
 
-    def _get_yesterday_data(self,header)->str:
+    def _get_yesterday_data(self,header):
         return self.s.get(
                 url = api["getQuestionNaireList"],
                 headers = header,
                 params = self.params1,
             ).json().get("data")[0]
 
-    def _handle_info(self,info,head,activityid)->str:
+    def _handle_info(self,info,head,activityid):
         try:
             questions = info.get("question_list")
             private_id = info.get("last_private_id")
@@ -186,6 +186,7 @@ class GetContent:
                     url = api["userInfo"],
                     headers=head
                 ).json().get("data")
+            #print(userinfo)
             return  {
                 "sch_code": userinfo.get("schcode"),
                 "stu_code": userinfo.get("stucode"),
@@ -205,7 +206,7 @@ class GetContent:
         except:
             return None
 
-    def _get_params2(self,actionid:str)->str:
+    def _get_params2(self,actionid:str):
             return {
                 "sch_code": self.schoolcode,
                 "stu_code": self.username,
@@ -214,7 +215,7 @@ class GetContent:
                 "page_from":"onpublic",
                 "private_id":"0"
             }
-    def _get_lastdata(self,cookie :str)->str:
+    def _get_lastdata(self,cookie)->str:
         if not cookie:
             return None
         head = {
@@ -236,9 +237,10 @@ class GetContent:
         except:
             return None
     # 
-    def reporter(self):
-        cookie = self.rel_cookie()
-        return self._get_lastdata(cookie)
-        
+    def reporter(self,cook):
+        #cookie = self.rel_cookie()
+        ##print("rel:"+str(cookie))
+        ##return self._get_lastdata(cookie)
+        return self._get_lastdata(cook)
         
 

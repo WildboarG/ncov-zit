@@ -8,7 +8,6 @@ Descripttion:
 '''
 
 import requests
-import json
 from info import *
 ##  打卡请求post
 def sign(data,cook):
@@ -16,6 +15,7 @@ def sign(data,cook):
         'Content-Type': 'application/json',
         'Cookie': cook,
     }
+    #print(data)
     try:
         data = requests.post(
             url=api["sign_url"],
@@ -25,10 +25,10 @@ def sign(data,cook):
         #print(data)
         if data.get("errcode") == 0:
             return "[S]Successfully"
-        if data.get("errcode")== 500:
-            return "[E]error"
+        if data.get('errmsg')=='不能重复回答同一问卷':
+            return "[S]Already signed"
         else:
-            return "[S]Already Clocked"
+            return "[E]error"
     
     except:
         return "[E]:Unknown"
