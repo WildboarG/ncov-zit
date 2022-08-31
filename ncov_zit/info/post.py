@@ -9,7 +9,7 @@ Descripttion:
 
 import requests
 import json
-from . import *
+from info import *
 ##  打卡请求post
 def sign(data,cook):
     headers = {
@@ -25,6 +25,8 @@ def sign(data,cook):
         #print(data)
         if data.get("errcode") == 0:
             return "[S]Successfully"
+        if data.get("errcode")== 500:
+            return "[E]error"
         else:
             return "[S]Already Clocked"
     
