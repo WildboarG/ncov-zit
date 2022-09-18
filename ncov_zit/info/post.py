@@ -15,7 +15,7 @@ def sign(data,cook):
         'Content-Type': 'application/json',
         'Cookie': cook,
     }
-    #print(data)
+    print(data)
     try:
         data = requests.post(
             url=api["sign_url"],

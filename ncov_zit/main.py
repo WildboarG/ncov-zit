@@ -211,8 +211,22 @@ def main():
     org = subparsers.add_parser("org",help="query history of the the organization report")
     org.add_argument(
             '-g','--organization_id',
-            help ="search all organization report",
-            )
+            help ="""search all organization report:
+                    "14223" :   "体育",
+                    "14124" :   "电气",
+                    "14125" :   "机械",
+                    "14126" :   "计科",
+                    "14127" :   "工商",
+                    "14129" :   "艺术",
+                    "14131" :   "中专",
+                    "14132" :   "土木",
+                    "14133" :   "交通",
+                    "14134" :   "食科",
+                    "14135" :   "舞蹈",
+                    "14136" :   "外语",
+                    "14137" :   "国标",
+                    "14139" :   "空乘",
+            """)
     org.add_argument(
             '-s','--start_time',
             help = "the start time of report history(Year-Month-Day)"
