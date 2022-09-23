@@ -1,13 +1,6 @@
-'''
-Author: WildboarG
-version: 1.0
-Date: 2022-08-23 17:17:33
-LastEditors: WildboarG
-LastEditTime: 2022-08-30 22:49:26
-Descripttion: 
-'''
 
-from info import *
+
+from . import *
 from rich.table import Table
 from rich import print
 

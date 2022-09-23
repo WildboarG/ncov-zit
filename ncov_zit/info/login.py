@@ -1,12 +1,4 @@
-'''
-Author: WildboarG
-version: 1.0
-Date: 2022-05-27 15:28:40
-LastEditors: WildboarG
-LastEditTime: 2022-08-23 21:16:43
-Descripttion: 
-'''
-from info import *
+from . import *
 import requests
 import json
 class GetContent:
@@ -103,7 +95,7 @@ class GetContent:
                 params = self.params1,
             ).json().get("data")[0]
 
-    def _handle_info(self,info,head,activityid):
+    def _handle_info(self,info,head,activityid,mylocal):
         try:
             questions = info.get("question_list")
             private_id = info.get("last_private_id")
@@ -124,6 +116,8 @@ class GetContent:
                     "isanswered": questions[flag].get("user_answer_this_question"),
                     "answerid": questions[flag].get("answerid"),
                 }
+                if mylocal!="0" and answer["questionid"]==27760:
+                    answer["content"]=mylocal
                 jump = 0
                 type = answer["question_type"]
                 #print(answer.get("optionid"))
@@ -154,11 +148,14 @@ class GetContent:
                     'question_type': questions[flag].get("question_type"),
                     "option_sort": 0,
                     'range_value': "",
-                    "content": questions[flag].get("user_answer_content"),
+                    "content": questions[flag].get("user_answer_content"), ##local 
                     "isotheroption": questions[flag].get("otheroption"),
                     "otheroption_content": questions[flag].get("user_answer_otheroption_content"),
                     "isanswered": questions[flag].get("user_answer_this_question")
                 }
+                if mylocal!="0" and answer["questionid"]==27760:
+                    answer["content"]=mylocal
+                
                 type = answer['question_type']
 
                 if type == 1 and answer["optionid"] != "":
@@ -180,6 +177,7 @@ class GetContent:
 
                 totalArr.append(answer)
                 flag += 1
+
 
             head['Referer'] = refer
             userinfo = requests.get(
@@ -215,7 +213,7 @@ class GetContent:
                 "page_from":"onpublic",
                 "private_id":"0"
             }
-    def _get_lastdata(self,cookie)->str:
+    def _get_lastdata(self,cookie,mylocal)->str:
         if not cookie:
             return None
         head = {
@@ -233,14 +231,14 @@ class GetContent:
         try:
             ## 获取问卷的详细信息
             info = self._get_yesterday_info(head,params2)
-            return self._handle_info(info,head,activityid)
+            return self._handle_info(info,head,activityid,mylocal)
         except:
             return None
     # 
-    def reporter(self,cook):
+    def reporter(self,cook,mylocal):
         #cookie = self.rel_cookie()
         ##print("rel:"+str(cookie))
         ##return self._get_lastdata(cookie)
-        return self._get_lastdata(cook)
+        return self._get_lastdata(cook,mylocal)
         
 

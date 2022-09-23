@@ -1,3 +1,4 @@
+
 # ncov-zit
 
 An automatic punch-in project based on Weishao's third-party application punch-in platform.
@@ -64,9 +65,9 @@ authorityid= [自行抓包获取]
 ```shell
 ## 开箱即用
 ## 安装快捷脚本
-pip install zitncov
+pip install ncov-zit
 ## 直接食用
-zitncov -u 学号 -p 密码
+oh_my-zit -u 学号 -p 密码 sign
 
 ## 返回值说明 
 ### Already Clocked 已经打卡

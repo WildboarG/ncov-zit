@@ -1,11 +1,4 @@
-'''
-Author: WildboarG
-version: 1.0
-Date: 2022-05-27 15:17:19
-LastEditors: WildboarG
-LastEditTime: 2022-08-30 23:05:13
-Descripttion: 
-'''
+
 import argparse
 import csv
 import json
@@ -41,7 +34,7 @@ class User:
             password = password,
         )
         cook = sign_content.rel_cookie()
-        data = sign_content.reporter(cook)
+        data = sign_content.reporter(cook,mylocal='0')
         ## return status
         result = signn(data,cook)
         info.append(result)
@@ -135,7 +128,7 @@ class User:
 
         table = self._output_table(["ID","Status","Node"])
         for i in res:
-            table.add_row(i[0],i[1],"123")
+            table.add_row(i[0],i[1],"hahaha")
         self._print_table(table)
 
     ## 查询
@@ -162,17 +155,17 @@ class User:
         _search.get_feedback_tree(cookie=cook,orgid=org,dafaultdate=date)
         return 
     
-    def test(self):
+    def test(self,mylocal="0"):
         my = GetContent(
             schoolcode = self.schoolcode,
             username = self.username,
             password = self.password,
+
         )
         cook = my.rel_cookie()
-        data = my.reporter(cook)
-        #print(data)
+        data = my.reporter(cook,mylocal)
         print(signn(data,cook))
-        return         
+        return        
 def main():
     parser = argparse.ArgumentParser(
             description=
@@ -195,6 +188,11 @@ def main():
             "--csv",
             help="Load a file of type CSV"
             )
+    sign.add_argument(
+            "-a",
+            "--address",   
+            help="Modify your address" 
+    )
     # search report
     query = subparsers.add_parser("query",help="query history of the user report")
     query.add_argument(
@@ -211,21 +209,23 @@ def main():
     org = subparsers.add_parser("org",help="query history of the the organization report")
     org.add_argument(
             '-g','--organization_id',
-            help ="""search all organization report:
-                    "14223" :   "体育",
-                    "14124" :   "电气",
-                    "14125" :   "机械",
-                    "14126" :   "计科",
-                    "14127" :   "工商",
-                    "14129" :   "艺术",
-                    "14131" :   "中专",
-                    "14132" :   "土木",
-                    "14133" :   "交通",
-                    "14134" :   "食科",
-                    "14135" :   "舞蹈",
-                    "14136" :   "外语",
-                    "14137" :   "国标",
-                    "14139" :   "空乘",
+            help ="""
+            search all organization report:\n
+                    "13096" :   "all", \n
+                    "14223" :   "体育",\n
+                    "14124" :   "电气",\n 
+                    "14125" :   "机械",\n
+                    "14126" :   "计科",\n
+                    "14127" :   "工商",\n
+                    "14129" :   "艺术",\n
+                    "14131" :   "中专",\n
+                    "14132" :   "土木",\n
+                    "14133" :   "交通",\n
+                    "14134" :   "食科",\n
+                    "14135" :   "舞蹈",\n
+                    "14136" :   "外语",\n
+                    "14137" :   "国标",\n
+                    "14139" :   "空乘",\n
             """)
     org.add_argument(
             '-s','--start_time',
@@ -247,6 +247,9 @@ def main():
             exit()
         if args.csv:
             user.csv_sign(args.csv)
+            exit()
+        if args.address:
+            user.test(mylocal=args.address)
             exit()
         else:
             user.test()
