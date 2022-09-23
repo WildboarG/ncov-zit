@@ -10,9 +10,9 @@ import threading
 from rich import print
 from rich.table import Table
 
-from .info.login import GetContent
-from .info.post import sign as signn
-from .info.search import Search
+from info.login import GetContent
+from info.post import sign as signn
+from info.search import Search
 
 class User:
     def __init__(self,schoolcode:str,username:str,password:str) -> None:
