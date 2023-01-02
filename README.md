@@ -68,6 +68,8 @@ authorityid= [自行抓包获取]
 pip install ncov-zit
 ## 直接食用
 oh_my-zit -u 学号 -p 密码 sign
+oh_my-zit -u 学号 -p 密码 sign -j json 使用json文件批量打卡
+oh_my-zit -u 学号 -p 密码 sign -a 地址  修改个人打卡的地址
 
 ## 返回值说明 
 ### Already Clocked 已经打卡
