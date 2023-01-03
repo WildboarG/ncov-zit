@@ -1,8 +1,12 @@
 [
 
     {
-        "username":"123456",
-        "password":"123456"
+        "username": "学号1",
+        "password": "密码"
+    },
+    {
+        "username": "学号2",
+        "password": "密码"
     }
-    
+
 ]

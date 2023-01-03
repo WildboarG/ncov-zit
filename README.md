@@ -22,10 +22,10 @@ An automatic punch-in project based on Weishao's third-party application punch-i
 git clone https://github.com/WildboarG/ncov-zit.git
 ```
 
-#####     依赖
+##### 依赖
 
 ```shell
-#python3.6+ whth pip
+#python3.6+ 
 pip3 install requirement.txt
 ```
 
@@ -44,38 +44,78 @@ authorityid= [自行抓包获取]
 
 ### 实现
 
-- 利用`csv` 文件进行批量处理处理
+- 利用`csv` 文件进行批量处理
+- 利用`json` 文件进行批量处理
 
 ### 实例 
 
 ```shell
- python3 main.py
+ oh_my-zit -u 学号 -p 密码 sign
 ```
 
-### cvs格式
+### csv格式
 
-```cvs
+```csv
 学号1,密码,MIT
 学号2,密码,MIT
 学号3,密码,MIT
 ```
 
+### json格式
+```json
+[
+    {
+        "username": "学号1",
+        "password": "密码"
+    },
+    {
+        "username": "学号2",
+        "password": "密码"
+    }
+]
+```
+
 #### 其他
 
-```shell
-## 开箱即用
-## 安装快捷脚本
+- 开箱即用
+- 安装快捷脚本
+```shell 
 pip install ncov-zit
-## 直接食用
+```
+- 直接签到
+```shell
 oh_my-zit -u 学号 -p 密码 sign
-oh_my-zit -u 学号 -p 密码 sign -j json 使用json文件批量打卡
-oh_my-zit -u 学号 -p 密码 sign -a 地址  修改个人打卡的地址
+```
+- 批量签到
+```shell
+oh_my-zit -u 学号 -p 密码 sign -j json
+oh_my-zit -u 学号 -p 密码 sign -c CSV 
+```
+
+- 修改签到地点
+```shell
+oh_my-zit -u 学号 -p 密码 sign -a "纽约市皇后区英格拉姆街20号"
+```
+
+## 查询
+- 查询指定班级
+```shell
+oh_my-zit -u 学号 -p 密码 query {-m -s}
+   -m 10376 班级id
+   -s 为起始查询日期(Year-Month-Day)
+```
+
+- 查询指定组织/学院
+```
+oh_my-zit -u 学号 -p 密码 org {-g -s}
+   -g 10000 组织id
+   -s 为起始查询日期(Year-Month-Day)
+```
 
 ## 返回值说明 
-### Already Clocked 已经打卡
-### Successlly 打卡成功
-### 其他情况视作失败，自行检查
-```
+      Already Clocked 已经打卡
+      Successlly 打卡成功
+      其他情况视作失败，自行检查
 
 
 
